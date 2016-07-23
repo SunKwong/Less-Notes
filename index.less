@@ -1,0 +1,152 @@
+@charset:'utf-8';
+// less中的注释
+
+/* 会被编译的注释 */
+// 不会被编译的注释
+
+/* 变量 */
+@div_size:200px;
+div{
+	width: @div_size;
+	height: @div_size;
+	background-color: #eee;
+}
+
+/* 混合 */
+// 写一个样式
+.border{
+	border: 1px solid red;
+}
+// 在CSS插入样式
+div{
+	.border;
+}
+
+/* 带参数的混合 */
+.border_02(@border_color){
+	border: 1px solid @border_color;
+}
+div{
+	.border_02(blue);
+}
+
+/* 带默认值的混合 */
+.border_03(@border_color:black){
+	border: 1px solid @border_color;
+}
+div{
+	/* .border_03(); */
+	.border_03(yellow);
+}
+// 混合的使用
+.border_radius(@radius:5px){
+	-webkit-border-radius:@radius;
+	-moz-border-radius:@radius;
+	border-radius: @radius;
+}
+div{
+	.border_radius();
+}
+
+/* 匹配模式 */
+.trangle(bottom,@w:5px,@c:#ccc){
+	border-width: @w;
+	border-color: @c transparent transparent transparent;
+	border-style: solid;
+}
+.trangle(left,@w:5px,@c:#ccc){
+	border-width: @w;
+	border-color: transparent @c transparent transparent;
+	border-style: solid;
+}
+.trangle(top,@w:5px,@c:#ccc){
+	border-width: @w;
+	border-color: transparent transparent @c transparent;
+	border-style: solid;
+}
+.trangle(right,@w:5px,@c:#ccc){
+	border-width: @w;
+	border-color: transparent transparent transparent @c;
+	border-style: solid;
+}
+// 始终带着的代码
+.trangle(@_,@w:5px,@c:#ccc){
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}
+div{
+	.trangle(right,100px)
+}
+
+/* 匹配模式的定位 */
+.pos(r){
+	position: relative;
+}
+.pos(a){
+	position: absolute;
+}
+.pos(f){
+	position: fixed;
+}
+div{
+	.pos(f);
+}
+
+/* 运算 */
+@test_01:300px;
+
+.box_02{
+	/* width: @test_01 - 20; */
+	width: (@test_01 - 20)*2;
+}
+
+/* 嵌套规则 */
+/* 
+一般写法
+ul{}
+ul li{}
+ul li a{} 
+*/
+ul{
+	width: 300px;
+	margin: 30px auto;
+	padding: 0;
+	list-style:none;
+	li{
+		height: 30px;
+		line-height: 30px;
+		background-color: #eee;
+		a{
+			text-decoration: none;
+			// &代表它的上一层选择器
+			&:hover{
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+/* @arguments变量 */
+// arguments代表所传的所有变量
+.border_arg(@w:30px,@c:red,@xx:solid){
+	border: @arguments;
+}
+div{
+	.border_arg(40px);
+}
+
+/* 避免编译错误 */
+// 输出一些不正确的CSS语法或者使用一些LESS不认识的专有语法。
+// 在字符串前加上一个~
+.opc{
+	filter:~'alpha(opacity=0)'
+}
+div{
+	.opc;
+}
+
+/* !important */
+div{
+	.border_radius()!important;
+}
